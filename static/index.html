@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USA Vacation Trip Agent</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --slider-track: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f3f4f6 100%);
+            color: var(--text);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .guide-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+
+        .guide-box h3 { margin-top: 0; color: var(--primary); }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .label-header {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+            color: #374151;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* --- NEW SLIDER STYLES --- */
+        .slider-container {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 25px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .slider-value {
+            font-weight: 700;
+            color: var(--primary);
+            background: #dbeafe;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        input[type=range] {
+            width: 100%;
+            -webkit-appearance: none;
+            background: transparent;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: var(--slider-track);
+            border-radius: 3px;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+        /* -------------------------- */
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        button:disabled {
+            background: #93c5fd;
+            cursor: not-allowed;
+        }
+
+        /* Results Section */
+        #result-area {
+            display: none;
+            margin-top: 40px;
+            border-top: 2px solid #f3f4f6;
+            padding-top: 40px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-card .label { font-size: 0.9rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-card .value { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-top: 5px; }
+
+        .markdown-body {
+            line-height: 1.7;
+            color: #374151;
+        }
+
+        .markdown-body h3 { color: var(--text); border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; margin-top: 30px; }
+        .markdown-body ul { padding-left: 20px; }
+        .markdown-body li { margin-bottom: 8px; }
+        .markdown-body strong { color: var(--primary); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1><i class="fas fa-plane-departure"></i> USA Vacation Planner</h1>
+        <p>Your personal travel agent powered by ML models and LLMs</p>
+    </div>
+
+    <div class="content">
+        <div class="guide-box">
+            <h3><i class="fas fa-lightbulb"></i> How to Prompt</h3>
+            <p>Tell the AI about your dream trip! Mention destination, days, and budget.</p>
+            <p><em>Example: "Plan a 3-day luxury trip to Miami for me, my wife, and 2 kids."</em></p>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-header">
+                <span class="label-header" style="margin:0;"><i class="fas fa-utensils"></i> Dining Preference</span>
+                <span class="slider-value" id="ratio-display">50% Restaurants</span>
+            </div>
+
+            <input type="range" id="diningRatio" min="0" max="100" value="50">
+
+            <div class="slider-labels">
+                <span><i class="fas fa-shopping-basket"></i> All Groceries</span>
+                <span>All Restaurants <i class="fas fa-wine-glass-alt"></i></span>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <span class="label-header">Trip Details</span>
+            <textarea id="promptInput" placeholder="Enter your trip details here (e.g., location, people, interests)..."></textarea>
+        </div>
+
+        <button onclick="planTrip()" id="planBtn">Plan My Trip</button>
+
+        <div class="loading-spinner" id="loader">
+            <i class="fas fa-circle-notch fa-spin"></i> Analyzing prices & generating itinerary...
+        </div>
+
+        <div id="result-area">
+            <div class="summary-cards">
+                <div class="stat-card">
+                    <div class="label">Total Cost</div>
+                    <div class="value" id="res-total">$0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Destination</div>
+                    <div class="value" id="res-city">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Style</div>
+                    <div class="value" id="res-style">-</div>
+                </div>
+            </div>
+
+            <div class="markdown-body" id="ai-response"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Slider Logic ---
+    const slider = document.getElementById('diningRatio');
+    const display = document.getElementById('ratio-display');
+
+    slider.oninput = function() {
+        // Update the label text based on value
+        const restaurantPct = this.value;
+        const groceryPct = 100 - restaurantPct;
+
+        if (restaurantPct > 50) {
+            display.innerText = `${restaurantPct}% Restaurants`;
+        } else if (restaurantPct < 50) {
+            display.innerText = `${groceryPct}% Groceries`;
+        } else {
+            display.innerText = "50/50 Balanced";
+        }
+    }
+
+    async function planTrip() {
+        const rawPrompt = document.getElementById('promptInput').value;
+        const ratio = document.getElementById('diningRatio').value;
+
+        const btn = document.getElementById('planBtn');
+        const loader = document.getElementById('loader');
+        const resultArea = document.getElementById('result-area');
+
+        if (!rawPrompt) {
+            alert("Please enter a trip prompt!");
+            return;
+        }
+
+        // --- Prompt Injection Strategy ---
+        // Instead of changing the backend API, we simply append the explicit
+        // ratio info to the text. The backend LLM is already trained to extract this.
+        const ratioText = `\n(Context: I plan to eat out ${ratio}% of the time and cook ${100-ratio}% of the time.)`;
+        const finalPrompt = rawPrompt + ratioText;
+
+        // UI States
+        btn.disabled = true;
+        loader.style.display = 'block';
+        resultArea.style.display = 'none';
+
+        try {
+            const response = await fetch('/plan_trip', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: finalPrompt })
+            });
+
+            const data = await response.json();
+
+            // Populate Stats
+            document.getElementById('res-total').innerText = '$' + Math.round(data.total_cost).toLocaleString();
+            document.getElementById('res-city').innerText = data.city;
+            document.getElementById('res-style').innerText = data.preferences.style || "Moderate";
+
+            // Render Markdown
+            document.getElementById('ai-response').innerHTML = marked.parse(data.ai_message);
+
+            // Show Result
+            resultArea.style.display = 'block';
+
+        } catch (error) {
+            alert("Error connecting to the agent: " + error);
+        } finally {
+            btn.disabled = false;
+            loader.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
