@@ -2,7 +2,8 @@
 
 A multi-agent travel planning system that generates personalized itineraries, cost estimates, and venue recommendations. Built with **FastAPI**, **Ollama (Llama 3)**, and **Scikit-Learn**.
 
-Make sure to update the "sas_token" variable in main.py in the get_data_local function which pulls from the azure container, for data privacy
+Make sure to update the "sas_token" variable in main.py in the get_data_local function which pulls from the azure container, ius private due to data privacy policy of the course
+
 Demo to install project locally to IDE - https://youtu.be/6_4i9UUJuuo
 
 ## 📋 Prerequisites
