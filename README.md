@@ -40,10 +40,9 @@ Demo to install project locally to IDE - https://youtu.be/6_4i9UUJuuo
 
 ## Model Setup
 
-Before running the agent, initialize the machine learning models.
+Before running the agent, which is done automatically when running ```python3 main.py``` after installed everything, which will pull and initialize the machine learning models and data.
 
-1.  **Verify Models:**
-    Ensure the following exist in `sub_agents/models/`:
+1.  **Models -  In Azure Container:**
     * `recommendation_engine.pkl`
     * `food_cost_predictor_v1.pkl`
     * `lodging_cost_predictor_v1.pkl`
